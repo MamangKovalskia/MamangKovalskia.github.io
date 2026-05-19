@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Animasi Amplop</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff5f7;
+        font-family: sans-serif;
+        overflow: hidden;
+    }
+
+    .container {
+        position: relative;
+        width: 300px;
+        height: 220px;
+        cursor: pointer;
+    }
+
+    /* Amplop */
+    .envelope {
+        width: 100%;
+        transition: opacity 0.4s ease;
+    }
+
+    /* Kertas */
+    .paper {
+        position: absolute;
+        top: 60%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.3);
+        width: 260px;
+        height: 180px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        opacity: 0;
+        transition: all 0.6s ease;
+        z-index: 2;
+        padding: 20px;
+    }
+
+    /* Garis kertas */
+    .paper::before {
+        content: "";
+        position: absolute;
+        top: 30px;
+        left: 20px;
+        right: 20px;
+        height: 2px;
+        background: #f3a6b0;
+        box-shadow: 0 25px 0 #f3a6b0, 0 50px 0 #f3a6b0;
+    }
+
+    /* State aktif */
+    .open .paper {
+        top: 50%;
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 1;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container" id="container">
+    <img src="image/amplop-tutup.png" id="closed" class="envelope">
+    <img src="image/amplop-buka.png" id="open" class="envelope hidden">
+
+    <div class="paper"></div>
+</div>
+
+<script>
+    const container = document.getElementById("container");
+    const closed = document.getElementById("closed");
+    const openImg = document.getElementById("open");
+
+    let isOpen = false;
+
+    container.addEventListener("click", () => {
+        if (isOpen) return;
+
+        isOpen = true;
+
+        // Ganti gambar amplop
+        closed.classList.add("hidden");
+        openImg.classList.remove("hidden");
+
+        // Delay sedikit lalu munculkan kertas
+        setTimeout(() => {
+            container.classList.add("open");
+        }, 300);
+    });
+</script>
+
+</body>
+</html>

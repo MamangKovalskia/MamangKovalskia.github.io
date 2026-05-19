@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Surat Ulang Tahun - Birthday Wish</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+  position: relative;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--bg-image, url('image/bg.png'));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(40px);
+  transform: scale(1.1);
+  z-index: -2;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: -1;
+}
+
+.container {
+  position: relative;
+  width: 340px;
+  height: 250px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.envelope {
+  width: 100%;
+  transition: opacity 0.4s ease;
+}
+
+.paper {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.3);
+  width: 95%;
+  max-width: 850px;
+  background: #fffef7;
+  border-radius: 28px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: all 0.6s ease;
+  z-index: 10;
+  padding: 24px;
+  pointer-events: none;
+}
+
+.open .paper {
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.paper-inner {
+  background: #fffef7;
+  border-radius: 24px;
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 215, 150, 0.6);
+  padding: 2rem;
+}
+
+@media (max-width: 750px) {
+  .paper-inner {
+    padding: 1.5rem;
+  }
+  .container {
+    width: 300px;
+    height: 220px;
+  }
+  .open .paper {
+    width: 96%;
+  }
+}
+
+.dynamic-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.birthday-title {
+  font-size: 3rem;
+  font-weight: 800;
+  text-align: center;
+  color: #c4452c;
+  letter-spacing: 2px;
+  margin-bottom: 0.25rem;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+}
+
+.subtitle-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #b1624b;
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+.image-circle {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 16px;
+  cursor: pointer;
+}
+
+.avatar-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #ffc49b;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avatar-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.subtitle2-text {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #b1624b;
+  margin: 8px 0 0;
+}
+
+.divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #f3b37a, #f3b37a, transparent);
+  margin: 12px 0;
+  width: 100%;
+}
+
+.content-paragraph {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #2d2a24;
+  text-align: center;
+  font-weight: 500;
+  background: #fff9ef;
+  padding: 6px 12px;
+  border-radius: 48px;
+}
+
+.author-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  color: #a55d3a;
+  background: #ffe1bf;
+  display: inline-block;
+  width: fit-content;
+  margin: 6px auto 0;
+  padding: 8px 22px;
+  border-radius: 40px;
+}
+
+@media (max-width: 550px) {
+  .birthday-title { font-size: 2.4rem; }
+  .subtitle-text { font-size: 1.2rem; }
+  .subtitle2-text { font-size: 1.2rem; }
+  .content-paragraph { font-size: 0.9rem; }
+  .author-text { font-size: 1rem; }
+  .avatar-img { width: 90px; height: 90px; }
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.2em;
+  background-color: #c4452c;
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: blink 0.8s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.modal-content {
+  background: #fffef7;
+  border-radius: 28px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-img {
+  max-width: 80vw;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.modal-desc {
+  font-size: 1.2rem;
+  color: #5a3e2b;
+  font-weight: 500;
+  background: #fff2e0;
+  padding: 12px 20px;
+  border-radius: 40px;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  background: rgba(0,0,0,0.5);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: monospace;
+}
+
+.close-modal:hover {
+  background: rgba(0,0,0,0.8);
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .modal-desc {
+    font-size: 1rem;
+  }
+  .close-modal {
+    top: 10px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="container">
+  <img src="image/amplop-tutup.png" id="closed" class="envelope" alt="amplop tertutup">
+  <img src="image/amplop-buka.png" id="openImg" class="envelope hidden" alt="amplop terbuka">
+
+  <div class="paper" id="paperCard">
+    <div class="paper-inner">
+      <div class="dynamic-content" id="dynamicContent">
+        <div style="text-align:center; padding:40px; color:#b1624b;"> Membuka surat... </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="imageModal" class="modal">
+  <div class="close-modal">&times;</div>
+  <div class="modal-content">
+    <img id="modalImage" class="modal-img" alt="Foto besar">
+    <div id="modalDescription" class="modal-desc"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const container = document.getElementById("container");
+  const closedImg = document.getElementById("closed");
+  const openImg = document.getElementById("openImg");
+  const paperCard = document.getElementById("paperCard");
+  const dynamicContainer = document.getElementById("dynamicContent");
+  const modal = document.getElementById("imageModal");
+  const modalImage = document.getElementById("modalImage");
+  const modalDesc = document.getElementById("modalDescription");
+  const closeModalBtn = document.querySelector(".close-modal");
+  
+  let isOpen = false;
+  let globalData = null;
+  let bgMusic = null;
+  let currentAvatarImgElement = null;
+
+  async function loadData() {
+    try {
+      const response = await fetch('data.json');
+      if (!response.ok) throw new Error();
+      const data = await response.json();
+      globalData = data;
+    } catch (err) {
+      globalData = {
+        "background_image": "image/bg.png",
+        "envelope_closed": "image/amplop-tutup.png",
+        "envelope_open": "image/amplop-buka.png",
+        "avatar_image": "https://randomuser.me/api/portraits/women/68.jpg",
+        "avatar_description": " Foto kenangan spesial ",
+        "music": "sound.mp3",
+        "title": "Hello",
+        "subtitle": "You?, Hah?",
+        "subtitle2": "This is",
+        "content1": " Selamat ulang tahun! Semoga hari penuh tawa.",
+        "content2": " Setiap detik bersamamu adalah hadiah.",
+        "content3": " Bahagia selalu, hari ini dan seterusnya!",
+        "author": "Dari: Orang yang menyayangimu "
+      };
+    }
+    applyAssetsFromData();
+  }
+
+  function applyAssetsFromData() {
+    if (!globalData) return;
+    if (globalData.background_image) {
+      document.body.style.setProperty('--bg-image', `url('${globalData.background_image}')`);
+    }
+    if (globalData.envelope_closed) {
+      closedImg.src = globalData.envelope_closed;
+    }
+    if (globalData.envelope_open) {
+      openImg.src = globalData.envelope_open;
+    }
+  }
+
+  function playMusicWithLoop() {
+    if (!globalData || !globalData.music) return;
+    if (bgMusic) {
+      bgMusic.pause();
+      bgMusic = null;
+    }
+    bgMusic = new Audio(globalData.music);
+    bgMusic.volume = 0.5;
+    bgMusic.loop = false;
+    bgMusic.addEventListener('ended', function() {
+      if (bgMusic) {
+        bgMusic.currentTime = 0;
+        bgMusic.play().catch(e => console.warn("Music autoplay blocked:", e));
+      }
+    });
+    bgMusic.play().catch(e => console.warn("Music play error:", e));
+  }
+
+  function typeTextToElement(element, fullText, speed = 45, commaDelayEnabled = false) {
+    return new Promise((resolve) => {
+      if (!element) return resolve();
+      element.textContent = '';
+      let index = 0;
+      let timeoutId = null;
+
+      function typeNext() {
+        if (index < fullText.length) {
+          const currentChar = fullText[index];
+          element.textContent += currentChar;
+          index++;
+          if (commaDelayEnabled && currentChar === ',') {
+            timeoutId = setTimeout(typeNext, 2000);
+          } else {
+            timeoutId = setTimeout(typeNext, speed);
+          }
+        } else {
+          if (timeoutId) clearTimeout(timeoutId);
+          resolve();
+        }
+      }
+      typeNext();
+    });
+  }
+
+  function setupAvatarClick(imgElement, avatarSrc, description) {
+    if (!imgElement) return;
+    imgElement.style.cursor = 'pointer';
+    imgElement.addEventListener('click', (e) => {
+      e.stopPropagation();
+      modalImage.src = avatarSrc;
+      modalDesc.textContent = description || "Tidak ada deskripsi";
+      modal.style.display = 'flex';
+    });
+  }
+
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  async function startTypewriterSequence(data) {
+    dynamicContainer.innerHTML = '';
+
+    const titleEl = document.createElement('h1');
+    titleEl.className = 'birthday-title';
+    dynamicContainer.appendChild(titleEl);
+
+    const subEl = document.createElement('h2');
+    subEl.className = 'subtitle-text';
+    dynamicContainer.appendChild(subEl);
+
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = 'image-circle';
+    const img = document.createElement('img');
+    img.className = 'avatar-img';
+    img.alt = 'foto ulang tahun';
+    imgWrapper.appendChild(img);
+    dynamicContainer.appendChild(imgWrapper);
+    imgWrapper.style.opacity = '0';
+    imgWrapper.style.transition = 'opacity 0.4s';
+
+    const sub2El = document.createElement('h3');
+    sub2El.className = 'subtitle2-text';
+    dynamicContainer.appendChild(sub2El);
+
+    const divider1 = document.createElement('div');
+    divider1.className = 'divider';
+    dynamicContainer.appendChild(divider1);
+
+    const contentPara1 = document.createElement('p');
+    contentPara1.className = 'content-paragraph';
+    const contentPara2 = document.createElement('p');
+    contentPara2.className = 'content-paragraph';
+    const contentPara3 = document.createElement('p');
+    contentPara3.className = 'content-paragraph';
+    dynamicContainer.appendChild(contentPara1);
+    dynamicContainer.appendChild(contentPara2);
+    dynamicContainer.appendChild(contentPara3);
+
+    const divider2 = document.createElement('div');
+    divider2.className = 'divider';
+    dynamicContainer.appendChild(divider2);
+
+    const authorEl = document.createElement('div');
+    authorEl.className = 'author-text';
+    dynamicContainer.appendChild(authorEl);
+
+    let avatarSrc = data.avatar_image || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+    let avatarDesc = data.avatar_description || "Foto spesial ";
+    img.src = avatarSrc;
+
+    await typeTextToElement(titleEl, data.title || 'Hello', 55, false);
+    await new Promise(r => setTimeout(r, 180));
+    await typeTextToElement(subEl, data.subtitle || 'You?, Hah?', 55, true);
+    imgWrapper.style.opacity = '1';
+    await new Promise(r => setTimeout(r, 200));
+    await typeTextToElement(sub2El, data.subtitle2 || 'This is', 50, false);
+    await new Promise(r => setTimeout(r, 100));
+    
+    await typeTextToElement(contentPara1, data.content1 || ' Kenangan indah bersamamu selalu membekas', 80, false);
+    await new Promise(r => setTimeout(r, 150));
+    await typeTextToElement(contentPara2, data.content2 || ' Semoga mimpi-mimpi besarmu terwujud', 80, false);
+    await new Promise(r => setTimeout(r, 150));
+    await typeTextToElement(contentPara3, data.content3 || ' Terima kasih untuk semua tawa dan cerita', 80, false);
+    await new Promise(r => setTimeout(r, 200));
+    await typeTextToElement(authorEl, data.author || 'Penuh cinta', 50, false);
+    
+    setupAvatarClick(img, avatarSrc, avatarDesc);
+  }
+
+  container.addEventListener("click", async () => {
+    if (isOpen) return;
+    isOpen = true;
+
+    playMusicWithLoop();
+
+    closedImg.classList.add("hidden");
+    openImg.classList.remove("hidden");
+
+    setTimeout(() => {
+      container.classList.add("open");
+    }, 300);
+
+    if (!globalData) {
+      await loadData();
+    } else {
+      applyAssetsFromData();
+    }
+
+    setTimeout(async () => {
+      await startTypewriterSequence(globalData);
+    }, 900);
+  });
+
+  closeModalBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  loadData();
+})();
+</script>
+</body>
+</html>
