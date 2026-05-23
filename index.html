@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Surat Ulang Tahun - Birthday Wish</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Kartu Ucapan Ulang Tahun</title>
 <style>
 * {
   margin: 0;
@@ -15,6 +15,7 @@ body {
   min-height: 100vh;
   background: #1a1a2e;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
@@ -52,50 +53,66 @@ body::after {
 
 .container {
   position: relative;
-  width: 340px;
-  height: 250px;
-  cursor: pointer;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.envelope-wrapper {
+  text-align: center;
+  transition: opacity 0.3s ease;
+  margin: 20px 0;
 }
 
 .envelope {
-  width: 100%;
-  transition: opacity 0.4s ease;
+  width: 280px;
+  max-width: 85%;
+  display: block;
+  margin: 0 auto;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+
+.envelope:active {
+  transform: scale(0.97);
 }
 
 .paper {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.3);
-  width: 95%;
+  width: 100%;
   max-width: 850px;
+  margin: 0 auto;
   background: #fffef7;
-  border-radius: 28px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  border-radius: 32px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
   opacity: 0;
-  transition: all 0.6s ease;
-  z-index: 10;
-  padding: 24px;
+  transform: scale(0.92);
   pointer-events: none;
+  overflow: visible;
 }
 
-.open .paper {
-  top: 50%;
-  transform: translate(-50%, -50%) scale(1);
+.container.open .paper {
   opacity: 1;
+  transform: scale(1);
   pointer-events: auto;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 
-.hidden {
+.container.open .envelope-wrapper {
   display: none;
 }
 
 .paper-inner {
   background: #fffef7;
-  border-radius: 24px;
+  border-radius: 28px;
   backdrop-filter: blur(2px);
   border: 1px solid rgba(255, 215, 150, 0.6);
   padding: 2rem;
@@ -104,13 +121,6 @@ body::after {
 @media (max-width: 750px) {
   .paper-inner {
     padding: 1.5rem;
-  }
-  .container {
-    width: 300px;
-    height: 220px;
-  }
-  .open .paper {
-    width: 96%;
   }
 }
 
@@ -128,6 +138,7 @@ body::after {
   letter-spacing: 2px;
   margin-bottom: 0.25rem;
   text-shadow: 2px 2px 8px rgba(0,0,0,0.05);
+  word-break: break-word;
 }
 
 .subtitle-text {
@@ -137,6 +148,7 @@ body::after {
   color: #b1624b;
   margin-top: 4px;
   letter-spacing: 1px;
+  word-break: break-word;
 }
 
 .image-circle {
@@ -167,6 +179,7 @@ body::after {
   text-align: center;
   color: #b1624b;
   margin: 8px 0 0;
+  word-break: break-word;
 }
 
 .divider {
@@ -183,8 +196,10 @@ body::after {
   text-align: center;
   font-weight: 500;
   background: #fff9ef;
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 48px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .author-text {
@@ -207,6 +222,9 @@ body::after {
   .content-paragraph { font-size: 0.9rem; }
   .author-text { font-size: 1rem; }
   .avatar-img { width: 90px; height: 90px; }
+  .paper-inner {
+    padding: 1.2rem;
+  }
 }
 
 .typing-cursor {
@@ -320,13 +338,13 @@ body::after {
 <body>
 
 <div class="container" id="container">
-  <img src="image/amplop-tutup.png" id="closed" class="envelope" alt="amplop tertutup">
-  <img src="image/amplop-buka.png" id="openImg" class="envelope hidden" alt="amplop terbuka">
-
+  <div class="envelope-wrapper">
+    <img src="image/amplop-tutup.png" id="closedEnvelope" class="envelope" alt="amplop tertutup">
+  </div>
   <div class="paper" id="paperCard">
     <div class="paper-inner">
       <div class="dynamic-content" id="dynamicContent">
-        <div style="text-align:center; padding:40px; color:#b1624b;"> Membuka surat... </div>
+        <div style="text-align:center; padding:40px; color:#b1624b;">🌸 Membuka surat... 🌸</div>
       </div>
     </div>
   </div>
@@ -343,8 +361,7 @@ body::after {
 <script>
 (function() {
   const container = document.getElementById("container");
-  const closedImg = document.getElementById("closed");
-  const openImg = document.getElementById("openImg");
+  const closedEnvelope = document.getElementById("closedEnvelope");
   const paperCard = document.getElementById("paperCard");
   const dynamicContainer = document.getElementById("dynamicContent");
   const modal = document.getElementById("imageModal");
@@ -366,18 +383,18 @@ body::after {
     } catch (err) {
       globalData = {
         "background_image": "bg.jpg",
-  "envelope_closed": "amplop-tutup.png",
-  "envelope_open": "amplop-buka.png",
-  "avatar_image": "halo.jpg",
-  "avatar_description": "XIXIXIXI ADANYA INI HEHE",
-  "music": "sound.mp3",
-  "title": "Hewwooo?",
-  "subtitle": "Ami?, Ana?, Diana?",
-  "subtitle2": "Yang ini lah pokoknya hehe",
-  "content1": "Hari ini bukanlah hari biasa, dan bukan hari tentang bertambahnya usia, tapi tentang sejauh apa kamu sudah bertahan dan berkembang sejauh ini. \nSelamat ulang tahun, semoga tetap panjang umur dan sehat selalu, menjadi orang yang ceria, ramah dan baik ke orang lain, jadi orang yang sabar dan tetap jadi orang penyayang",
-  "content2": "Di usia yang baru ini, semoga kamu menemukan lebih banyak alasan untuk tersenyum dan bahagia, dipertemukan dengan hal-hal baik yang datang tanpa dipaksa, serta dikelilingi oleh orang-orang yang benar-benar menghargaimu apa adanya. Semoga langkahmu selalu dipenuhi ketenangan, dan hatimu tetap kuat meski tidak semua hal berjalan sesuai harapan.",
-  "content3": "Dan semoga apa yang ada di antara kita tetap terasa, meski tidak perlu diberi nama, cukup dijaga, tanpa harus menjadi sesuatu yang lebih. ",
-  "author": "- BAYDEN"
+        "envelope_closed": "amplop-tutup.png",
+        "envelope_open": "amplop-buka.png",
+        "avatar_image": "halo.jpg",
+        "avatar_description": "XIXIXIXI ADANYA INI HEHE",
+        "music": "sound.mp3",
+        "title": "Hewwooo?",
+        "subtitle": "Ami?, Ana?, Diana?",
+        "subtitle2": "Yang ini lah pokoknya hehe",
+        "content1": "Hari ini bukanlah hari biasa, dan bukan hari tentang bertambahnya usia, tapi tentang sejauh apa kamu sudah bertahan dan berkembang sejauh ini. \nSelamat ulang tahun, semoga tetap panjang umur dan sehat selalu, menjadi orang yang ceria, ramah dan baik ke orang lain, jadi orang yang sabar dan tetap jadi orang penyayang",
+        "content2": "Di usia yang baru ini, semoga kamu menemukan lebih banyak alasan untuk tersenyum dan bahagia, dipertemukan dengan hal-hal baik yang datang tanpa dipaksa, serta dikelilingi oleh orang-orang yang benar-benar menghargaimu apa adanya. Semoga langkahmu selalu dipenuhi ketenangan, dan hatimu tetap kuat meski tidak semua hal berjalan sesuai harapan.",
+        "content3": "Dan semoga apa yang ada di antara kita tetap terasa, meski tidak perlu diberi nama, cukup dijaga, tanpa harus menjadi sesuatu yang lebih. 😉\n\nMaaf cuma bisa ngasih ginian hehe",
+        "author": "- BAYDEN ✨"
       };
     }
     applyAssetsFromData();
@@ -388,11 +405,8 @@ body::after {
     if (globalData.background_image) {
       document.body.style.setProperty('--bg-image', `url('${globalData.background_image}')`);
     }
-    if (globalData.envelope_closed) {
-      closedImg.src = globalData.envelope_closed;
-    }
-    if (globalData.envelope_open) {
-      openImg.src = globalData.envelope_open;
+    if (globalData.envelope_closed && closedEnvelope) {
+      closedEnvelope.src = globalData.envelope_closed;
     }
   }
 
@@ -408,10 +422,10 @@ body::after {
     bgMusic.addEventListener('ended', function() {
       if (bgMusic) {
         bgMusic.currentTime = 0;
-        bgMusic.play().catch(e => console.warn("Music autoplay blocked:", e));
+        bgMusic.play().catch(e => console.warn("Music replay blocked:", e));
       }
     });
-    bgMusic.play().catch(e => console.warn("Music play error:", e));
+    bgMusic.play().catch(e => console.warn("Music autoplay error:", e));
   }
 
   function typeTextToElement(element, fullText, speed = 45, commaDelayEnabled = false) {
@@ -443,12 +457,15 @@ body::after {
   function setupAvatarClick(imgElement, avatarSrc, description) {
     if (!imgElement) return;
     imgElement.style.cursor = 'pointer';
-    imgElement.addEventListener('click', (e) => {
+    const newImg = imgElement.cloneNode(true);
+    imgElement.parentNode.replaceChild(newImg, imgElement);
+    newImg.addEventListener('click', (e) => {
       e.stopPropagation();
       modalImage.src = avatarSrc;
       modalDesc.textContent = description || "Tidak ada deskripsi";
       modal.style.display = 'flex';
     });
+    return newImg;
   }
 
   function closeModal() {
@@ -503,7 +520,7 @@ body::after {
     dynamicContainer.appendChild(authorEl);
 
     let avatarSrc = data.avatar_image || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-    let avatarDesc = data.avatar_description || "Foto spesial ";
+    let avatarDesc = data.avatar_description || "Foto spesial ✨";
     img.src = avatarSrc;
 
     await typeTextToElement(titleEl, data.title || 'Hello', 55, false);
@@ -514,29 +531,29 @@ body::after {
     await typeTextToElement(sub2El, data.subtitle2 || 'This is', 50, false);
     await new Promise(r => setTimeout(r, 100));
     
-    await typeTextToElement(contentPara1, data.content1 || ' Kenangan indah bersamamu selalu membekas', 80, false);
+    await typeTextToElement(contentPara1, data.content1 || '✨ Kenangan indah bersamamu selalu membekas', 80, false);
     await new Promise(r => setTimeout(r, 150));
-    await typeTextToElement(contentPara2, data.content2 || ' Semoga mimpi-mimpi besarmu terwujud', 80, false);
+    await typeTextToElement(contentPara2, data.content2 || '✨ Semoga mimpi-mimpi besarmu terwujud', 80, false);
     await new Promise(r => setTimeout(r, 150));
-    await typeTextToElement(contentPara3, data.content3 || ' Terima kasih untuk semua tawa dan cerita', 80, false);
+    await typeTextToElement(contentPara3, data.content3 || '✨ Terima kasih untuk semua tawa dan cerita', 80, false);
     await new Promise(r => setTimeout(r, 200));
     await typeTextToElement(authorEl, data.author || 'Penuh cinta', 50, false);
     
-    setupAvatarClick(img, avatarSrc, avatarDesc);
+    const finalImg = setupAvatarClick(img, avatarSrc, avatarDesc);
+    if (finalImg && finalImg.parentNode) {
+    }
+    const topOfPaper = paperCard.getBoundingClientRect().top + window.scrollY - 20;
+    if (topOfPaper > 0) {
+      window.scrollTo({ top: topOfPaper, behavior: 'smooth' });
+    }
   }
 
-  container.addEventListener("click", async () => {
+  container.addEventListener("click", async (e) => {
     if (isOpen) return;
+    if (e.target.closest('.paper') && isOpen) return;
     isOpen = true;
 
     playMusicWithLoop();
-
-    closedImg.classList.add("hidden");
-    openImg.classList.remove("hidden");
-
-    setTimeout(() => {
-      container.classList.add("open");
-    }, 300);
 
     if (!globalData) {
       await loadData();
@@ -544,9 +561,16 @@ body::after {
       applyAssetsFromData();
     }
 
+    container.classList.add("open");
+
     setTimeout(async () => {
       await startTypewriterSequence(globalData);
-    }, 900);
+      const paperRect = paperCard.getBoundingClientRect();
+      const scrollOffset = window.scrollY + paperRect.top - 15;
+      if (scrollOffset > 0) {
+        window.scrollTo({ top: scrollOffset, behavior: 'smooth' });
+      }
+    }, 400);
   });
 
   closeModalBtn.addEventListener('click', closeModal);
